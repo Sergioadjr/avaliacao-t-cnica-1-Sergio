@@ -3,7 +3,6 @@ package com.example.Desafio.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Desafio.exception.IdadeInvalidaException;
 import com.example.Desafio.models.dependente.Dependente;
 import com.example.Desafio.models.familia.Familia;
 
