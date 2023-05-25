@@ -5,7 +5,9 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
+import com.example.Desafio.exception.IdadeInvalidaException;
 import com.example.Desafio.utils.EntidadeBase;
 
 import lombok.AllArgsConstructor;
@@ -20,9 +22,11 @@ import lombok.Setter;
 public class Familia extends EntidadeBase {
 
     @Column
+    @NotBlank
     private String nomeResponsavel;
-
+    
     @Column
+    @NotBlank
     private String cpfResponsavel;
 
     @Column
@@ -49,23 +53,24 @@ public class Familia extends EntidadeBase {
     }
 
     public int calcularPontuacao() {
-        int pontuacaoTotal;
+        int pontuacaoFinal;
         if (rendaTotal <= 900) {
-            pontuacaoTotal = 5;
+            pontuacaoFinal = 5;
         } else if (rendaTotal >= 901 && rendaTotal <= 1500) {
-            pontuacaoTotal = 3;
+            pontuacaoFinal = 3;
         } else {
-            pontuacaoTotal = 0;
+            pontuacaoFinal = 0;
         }
 
         if (quantidadeDependentes >= 3) {
-            pontuacaoTotal += 3;
+            pontuacaoFinal += 3;
         } else if (quantidadeDependentes >= 1 && quantidadeDependentes <= 2) {
-            pontuacaoTotal += 2;
+            pontuacaoFinal += 2;
         } else {
-            pontuacaoTotal += 0;
+            pontuacaoFinal += 0;
         }
-        return pontuacaoTotal;
+        return pontuacaoFinal;
     }
 
+    
 }

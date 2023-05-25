@@ -7,7 +7,8 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Desafio.dto.FamiliaDTO;
+import com.example.Desafio.dto.FamiliaRequestDTO;
+import com.example.Desafio.dto.FamiliaResponseDTO;
 import com.example.Desafio.models.Familia;
 import com.example.Desafio.repository.FamiliaRepository;
 
@@ -22,21 +23,28 @@ public class FamiliaService {
         this.familiaRepository = familiaRepository;
     }
 
-    public FamiliaDTO criarFamilia(FamiliaDTO familiaDTO) {
-        Familia familia = new Familia(familiaDTO.getNomeResponsavel(), familiaDTO.getCpfResponsavel(),
-                familiaDTO.getCpfConjuge(), familiaDTO.getQuantidadeDependentes(), 0, familiaDTO.getRendaTotal());
+    public FamiliaResponseDTO criarFamilia(FamiliaRequestDTO familiaRequestDTO) {
+        Familia familia = new Familia(familiaRequestDTO.getNomeResponsavel(), familiaRequestDTO.getCpfResponsavel(),
+                familiaRequestDTO.getCpfConjuge(), familiaRequestDTO.getQuantidadeDependentes(), 0,
+                familiaRequestDTO.getRendaTotal());
+        familia.setPontuacaoFinal(familia.calcularPontuacao());
+
         familiaRepository.save(familia);
 
-        return new FamiliaDTO(familia.getRendaTotal(), familia.getQuantidadeDependentes(), familia.calcularPontuacao());
+        return new FamiliaResponseDTO(familia.getNomeResponsavel(), familia.getCpfResponsavel(),
+                familia.getCpfConjuge(),
+                familia.getRendaTotal(), familia.getQuantidadeDependentes(), familia.getPontuacaoFinal());
     }
 
-    public List<FamiliaDTO> listagemDeFamiliasOrdenada() {
+    public List<FamiliaResponseDTO> listagemDeFamiliasOrdenada() {
         List<Familia> familias = StreamSupport.stream(familiaRepository.findAll().spliterator(), false)
-        .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
-
-        List<FamiliaDTO> familiaDTOs = familias.stream()
-                .map(familia -> new FamiliaDTO(
+        List<FamiliaResponseDTO> familiaDTOs = familias.stream()
+                .map(familia -> new FamiliaResponseDTO(
+                        familia.getNomeResponsavel(),
+                        familia.getCpfResponsavel(),
+                        familia.getCpfConjuge(),
                         familia.getRendaTotal(),
                         familia.getQuantidadeDependentes(),
                         familia.calcularPontuacao()))
@@ -46,7 +54,7 @@ public class FamiliaService {
         return familiaDTOs;
     }
 
-    public FamiliaDTO atualizarFamilia(long id, FamiliaDTO familiaDTO) {
+    public FamiliaResponseDTO atualizarFamilia(long id, FamiliaResponseDTO familiaDTO) {
         Familia familia = familiaRepository.findById(id);
 
         if (familia != null) {
@@ -55,7 +63,11 @@ public class FamiliaService {
 
             familiaRepository.save(familia);
 
-            return new FamiliaDTO(familia.getRendaTotal(), familia.getQuantidadeDependentes(),
+            return new FamiliaResponseDTO(familia.getNomeResponsavel(),
+                    familia.getCpfResponsavel(),
+                    familia.getCpfConjuge(),
+                    familia.getRendaTotal(),
+                    familia.getQuantidadeDependentes(),
                     familia.calcularPontuacao());
         } else {
             return null;

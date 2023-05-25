@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.Desafio.dto.FamiliaDTO;
+import com.example.Desafio.dto.FamiliaRequestDTO;
+import com.example.Desafio.dto.FamiliaResponseDTO;
 import com.example.Desafio.repository.FamiliaRepository;
 import com.example.Desafio.services.FamiliaService;
 
@@ -33,21 +34,21 @@ public class FamiliaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FamiliaDTO>> listagemDeFamiliasOrdenada() {
-        List<FamiliaDTO> familiaDTOs = familiaService.listagemDeFamiliasOrdenada();
+    public ResponseEntity<List<FamiliaResponseDTO>> listagemDeFamiliasOrdenada() {
+        List<FamiliaResponseDTO> familiaDTOs = familiaService.listagemDeFamiliasOrdenada();
         return ResponseEntity.ok(familiaDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<FamiliaDTO> criarFamilia(@RequestBody FamiliaDTO familiaDTO) {
-        FamiliaDTO novaFamiliaDTO = familiaService.criarFamilia(familiaDTO);
+    public ResponseEntity<FamiliaResponseDTO> criarFamilia(@RequestBody FamiliaRequestDTO familiaRequestDTO) {
+        FamiliaResponseDTO novaFamiliaDTO = familiaService.criarFamilia(familiaRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaFamiliaDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FamiliaDTO> atualizarFamilia(@PathVariable("id") long id,
-            @RequestBody FamiliaDTO familiaDTO) {
-        FamiliaDTO familiaAtualizadaDTO = familiaService.atualizarFamilia(id, familiaDTO);
+    public ResponseEntity<FamiliaResponseDTO> atualizarFamilia(@PathVariable("id") long id,
+            @RequestBody FamiliaResponseDTO familiaDTO) {
+        FamiliaResponseDTO familiaAtualizadaDTO = familiaService.atualizarFamilia(id, familiaDTO);
         if (familiaAtualizadaDTO != null) {
             return ResponseEntity.ok(familiaAtualizadaDTO);
         } else {
