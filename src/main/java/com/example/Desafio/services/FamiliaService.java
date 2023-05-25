@@ -1,6 +1,7 @@
 package com.example.Desafio.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -55,9 +56,10 @@ public class FamiliaService {
     }
 
     public FamiliaResponseDTO atualizarFamilia(long id, FamiliaResponseDTO familiaDTO) {
-        Familia familia = familiaRepository.findById(id);
+        Optional<Familia> optionalFamilia = familiaRepository.findById(id);
 
-        if (familia != null) {
+        if (optionalFamilia.isPresent()) {
+            Familia familia = optionalFamilia.get();
             familia.setRendaTotal(familiaDTO.getRendaTotal());
             familia.setQuantidadeDependentes(familiaDTO.getQuantidadeDependentes());
 
