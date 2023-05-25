@@ -3,27 +3,27 @@ package com.example.Desafio.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Desafio.models.dependente.Dependente;
-import com.example.Desafio.models.familia.Familia;
+import com.example.Desafio.models.Familia;
 
 public class FamiliaBuilder {
 
     private String nomeResponsavel;
     private String cpfResponsavel;
     private String cpfConjuge;
-    private List<Dependente> dependente;
+    private int quantidadeDependentes;
     private int pontuacaoFinal;
+    private Double rendaTotal;
+    // private ListagemFamilia listagemFamilia;
 
     public FamiliaBuilder() {
         this.nomeResponsavel = "Sergio";
         this.cpfResponsavel = "321.460.630-17";
         this.cpfConjuge = "654.909.790-89";
-        this.dependente = new ArrayList<>();
         this.pontuacaoFinal = 3;
     }
 
     public Familia construir() {
-        return new Familia(nomeResponsavel, cpfResponsavel, cpfConjuge, dependente, pontuacaoFinal);
+        return new Familia(nomeResponsavel, cpfResponsavel, cpfConjuge, quantidadeDependentes, pontuacaoFinal, rendaTotal);
     }
 
     public FamiliaBuilder comNomeResponsavel(String nomeResponsavel) {
@@ -38,11 +38,6 @@ public class FamiliaBuilder {
 
     public FamiliaBuilder comCpfConjuge(String cpfConjuge) {
         this.cpfConjuge = cpfConjuge;
-        return this;
-    }
-
-    public FamiliaBuilder comDependente(List<Dependente> dependente) {
-        this.dependente = dependente ;
         return this;
     }
 

@@ -1,4 +1,4 @@
-package com.example.Desafio.models.familia;
+package com.example.Desafio.models;
 
 import java.util.List;
 
@@ -37,7 +37,6 @@ public class Familia extends EntidadeBase {
     @Column
     private Double rendaTotal;
 
-    private ListagemFamilia listagemFamilia;
 
     public Familia(String nomeResponsavel, String cpfResponsavel, String cpfConjuge, int quantidadeDependentes,
             int pontuacaoFinal, Double rendaTotal) {
@@ -47,7 +46,6 @@ public class Familia extends EntidadeBase {
         this.quantidadeDependentes = quantidadeDependentes;
         this.pontuacaoFinal = pontuacaoFinal;
         this.rendaTotal = rendaTotal;
-        this.listagemFamilia =  listagemFamilia;
     }
 
     public int calcularPontuacao() {
